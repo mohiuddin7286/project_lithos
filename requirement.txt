@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+pandas
+scikit-learn
+lightgbm
+joblib
+ultralytics
+pillow
+python-multipart
