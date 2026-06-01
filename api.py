@@ -9,6 +9,15 @@ from PIL import Image
 import io
 from pathlib import Path
 import re
+import os
+
+# ==========================================
+# ENVIRONMENT OVERRIDES (MUST BE BEFORE YOLO)
+# ==========================================
+# Force Matplotlib cache to a temp directory to prevent Render timeouts
+os.environ['MPLCONFIGDIR'] = '/tmp/matplotlib' 
+# Silence YOLO logging to keep the cloud terminal clean
+os.environ['YOLO_VERBOSE'] = 'False'           
 
 # 1. Initialize API
 app = FastAPI(title="Project Lithos API", version="1.0")
@@ -52,13 +61,14 @@ def _find_latest_yolo_weights():
 
     return max(candidates, key=lambda p: p.stat().st_mtime)
 
-
 try:
     from ultralytics import YOLO
     weights_path = _find_latest_yolo_weights()
     if weights_path is None:
         raise FileNotFoundError("No trained YOLO weights (best.pt) found.")
-    vision_model = YOLO(str(weights_path))
+    
+    # Initialize YOLO in headless 'detect' mode to skip GUI overhead
+    vision_model = YOLO(str(weights_path), task='detect')
     print(f"✅ YOLOv8 Vision Model Loaded from: {weights_path}")
 except Exception as e:
     print(f"⚠️ YOLO Model not found yet. Finish training first! ({e})")
@@ -66,7 +76,6 @@ except Exception as e:
 
 class SensorReading(BaseModel):
     telemetry: Dict[str, float] 
-
 
 def _normalize_feature_name(value: str) -> str:
     return re.sub(r'[^a-z0-9]', '', str(value).lower())
@@ -84,8 +93,6 @@ def predict_risk(reading: SensorReading):
         final_features = {feat: 0.0 for feat in EXPECTED_FEATURES}
         
         # Smart matcher (alphanumeric-only normalization).
-        # This makes keys like `slope_angle` reliably match model names like
-        # `Slope_Angle_(°)`.
         for react_key, val in incoming_data.items():
             clean_react = _normalize_feature_name(react_key)
             for model_feat in EXPECTED_FEATURES:
