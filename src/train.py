@@ -2,23 +2,18 @@ import argparse
 from pathlib import Path
 import sys
 
-# Ensure src directory is in Python path
-sys.path.append(str(Path(__file__).resolve().parent))
+# Ensure src directory and project root are in Python path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent))
 
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, random_split
 from tqdm import tqdm
 
-try:
-    from src.config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
-    from src.dataset import LandslideDataset
-    from src.model import UNet
-except ImportError:
-    from config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
-    from dataset import LandslideDataset
-    from model import UNet
+from src.config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
+from src.dataset import LandslideDataset
+from src.model import UNet
 
 
 def dice_score(logits, masks, threshold=0.5, eps=1e-7):

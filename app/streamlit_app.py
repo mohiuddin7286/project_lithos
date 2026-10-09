@@ -13,15 +13,11 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 MODEL_PATH = PROJECT_ROOT / "outputs" / "best_model.pt"
 
-sys.path.append(str(SRC_DIR))
 sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(SRC_DIR))
 
-try:
-    from src.config import IMAGE_SIZE, THRESHOLD
-    from src.model import UNet
-except ImportError:
-    from config import IMAGE_SIZE, THRESHOLD
-    from model import UNet
+from src.config import IMAGE_SIZE, THRESHOLD
+from src.model import UNet
 
 
 def get_risk_category(score):
