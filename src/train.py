@@ -4,15 +4,21 @@ import sys
 
 # Ensure src directory is in Python path
 sys.path.append(str(Path(__file__).resolve().parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, random_split
 from tqdm import tqdm
 
-from config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
-from dataset import LandslideDataset
-from model import UNet
+try:
+    from src.config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
+    from src.dataset import LandslideDataset
+    from src.model import UNet
+except ImportError:
+    from config import BATCH_SIZE, EPOCHS, IMAGE_SIZE, LEARNING_RATE, OUTPUT_DIR
+    from dataset import LandslideDataset
+    from model import UNet
 
 
 def dice_score(logits, masks, threshold=0.5, eps=1e-7):

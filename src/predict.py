@@ -8,9 +8,14 @@ import torch
 from PIL import Image
 
 sys.path.append(str(Path(__file__).resolve().parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from config import IMAGE_SIZE, OUTPUT_DIR, THRESHOLD
-from model import UNet
+try:
+    from src.config import IMAGE_SIZE, OUTPUT_DIR, THRESHOLD
+    from src.model import UNet
+except ImportError:
+    from config import IMAGE_SIZE, OUTPUT_DIR, THRESHOLD
+    from model import UNet
 
 
 def load_model(model_path, device):
