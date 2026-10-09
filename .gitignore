@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Large dataset files (keep folder structure if needed)
+data/images/*
+!data/images/.gitkeep
+data/masks/*
+!data/masks/.gitkeep
+
+# Output models / logs (uncomment if models are too large, outputs/best_model.pt is ~31MB which fits within GitHub 100MB limit)
+# outputs/*.pt
