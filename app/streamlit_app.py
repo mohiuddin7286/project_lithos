@@ -341,20 +341,20 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(["Prediction", "Confidence Heatmap", "Vis
 
 with tab1:
     col1, col2, col3 = st.columns(3)
-    col1.image(image, caption="Input image", use_container_width=True)
-    col2.image(mask, caption="Predicted landslide mask", use_container_width=True)
-    col3.image(overlay, caption="Landslide overlay", use_container_width=True)
+    col1.image(image, caption="Input image", width="stretch")
+    col2.image(mask, caption="Predicted landslide mask", width="stretch")
+    col3.image(overlay, caption="Landslide overlay", width="stretch")
 
 with tab2:
     col1, col2 = st.columns(2)
-    col1.image(heatmap, caption="Probability heatmap overlay", use_container_width=True)
-    col2.image((probability * 255).astype(np.uint8), caption="Raw probability map", use_container_width=True)
+    col1.image(heatmap, caption="Probability heatmap overlay", width="stretch")
+    col2.image((probability * 255).astype(np.uint8), caption="Raw probability map", width="stretch")
 
 with tab3:
     chart_col1, chart_col2 = st.columns(2)
-    chart_col1.pyplot(plot_probability_histogram(probability, threshold), use_container_width=True)
-    chart_col2.pyplot(plot_area_breakdown(affected_percent), use_container_width=True)
-    st.pyplot(plot_risk_gauge(combined_warning_score), use_container_width=True)
+    chart_col1.pyplot(plot_probability_histogram(probability, threshold), width="stretch")
+    chart_col2.pyplot(plot_area_breakdown(affected_percent), width="stretch")
+    st.pyplot(plot_risk_gauge(combined_warning_score), width="stretch")
 
 with tab4:
     factor_scores = {
@@ -370,7 +370,7 @@ with tab4:
     ew_col1.metric("Visual AI score", f"{risk_score:.3f}")
     ew_col2.metric("Environment score", f"{environment_score:.3f}")
     ew_col3.metric("Combined warning", f"{combined_warning_score:.3f}")
-    st.pyplot(plot_environment_factors(factor_scores), use_container_width=True)
+    st.pyplot(plot_environment_factors(factor_scores), width="stretch")
     st.info(
         "The combined score uses 60% visual AI detection and 40% environmental indicators. "
         "Use these inputs as a project demonstration heuristic, not as an official warning system."
